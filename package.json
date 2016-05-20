@@ -1,0 +1,15 @@
+{
+  "name": "atom-ember-frost-syntax",
+  "theme": "syntax",
+  "version": "0.0.0",
+  "description": "Colorize Ember syntax and Handlebars. Along with a theme made specifcally for the colorizer",
+  "keywords": [
+    "syntax",
+    "theme"
+  ],
+  "repository": "https://github.com/ciena-blueplanet/atom-ember-frost-syntax",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  }
+}

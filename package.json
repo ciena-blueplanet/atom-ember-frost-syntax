@@ -1,7 +1,7 @@
 {
   "name": "atom-ember-frost-syntax",
   "theme": "syntax",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Colorize Ember syntax and Handlebars. Along with a theme made specifcally for the colorizer",
   "keywords": [
     "syntax",

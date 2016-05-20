@@ -1,0 +1,660 @@
+fileTypes: [
+  "handlebars"
+  "hbs"
+]
+foldingStartMarker: "(?x)(<(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|form|dl)\\b.*?>|<!--(?!.*-->)|\\{\\s*($|\\?>\\s*$|//|/\\*(.*\\*/\\s*$|(?!.*?\\*/)))|\\{\\{\\#)"
+foldingStopMarker: "(?x)(</(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|form|dl)>|^\\s*-->|(^|\\s)\\}|\\{\\{/)"
+name: "Handlebars (Ember)"
+patterns: [
+  {
+    include: "#component_action"
+  }
+  {
+    include: "#component"
+  }
+  {
+    include: "#escaping_handlebars"
+  }
+  {
+    include: "#comments"
+  }
+  {
+    include: "#each_block"
+  }
+  {
+    include: "#block_helper"
+  }
+  {
+    include: "#end_block"
+  }
+  {
+    include: "#partial_and_var"
+  }
+  {
+    include: "#html_tags"
+  }
+]
+repository:
+  escaping_handlebars:
+    begin: "(\\{\\{\\{)([-a-zA-Z_\\./]+)"
+    beginCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+      "2":
+        name: "entity.other.data, constant.key"
+    end: "(\\}\\}\\})"
+    endCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+    name: "meta.function.block.start.handlebars"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+    ]
+  component_action:
+    begin: "(\\{\\{)(action)\\s+\\'([a-zA-Z\\-0-9\\s:]+)\\'"
+    beginCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+      "2":
+        name: "support.function.component"
+      "3":
+        name: "keyword.other.actionhandler"
+    end: "(\\}\\})"
+    endCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+    name: "meta.function.block.start.handlebars"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#handlebar_as"
+      }
+      {
+        include: "#tag_onClick"
+      }
+      {
+        include: "#handlebar_attributes"
+      }
+      {
+        include: "#handlebar_data"
+      }
+      {
+        include: "#handlebar_action_helper"
+      }
+      {
+        include: "#handlebar_helper"
+      }
+    ]
+  component:
+    begin: "(\\{\\{)([-a-zA-Z_\\.]+[\\/]*[-a-zA-Z_\\.]*)\\s*"
+    beginCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+      "2":
+        name: "support.function.component"
+      "3":
+        name: "entity.other.data, constant.key"
+    end: "(\\}\\})"
+    endCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+    name: "meta.function.block.start.handlebars"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#handlebar_as"
+      }
+      {
+        include: "#tag_onClick"
+      }
+      {
+        include: "#handlebar_attributes"
+      }
+      {
+        include: "#handlebar_data"
+      }
+      {
+        include: "#handlebar_action_helper"
+      }
+      {
+        include: "#handlebar_helper"
+      }
+    ]
+  each_block:
+    begin: "(\\{\\{\\#)(each)\\s+([-a-zA-Z_\\./]+)\\s+(as)\\s+(\\|)([a-z]+)(\\|)"
+    beginCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+      "2":
+        name: "keyword"
+      "3":
+        name: "entity.other.data, constant.key"
+      "4":
+        name: "markup.italic, entity.name.function"
+      "5":
+        name: "declaration.tag"
+      "6":
+        name: "blockparam, object.property"
+      "7":
+        name: "declaration.tag"
+    end: "(\\}\\})"
+    endCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+    name: "meta.function.block.start.handlebars"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+    ]
+  block_helper:
+    begin: "(\\{\\{\\#)([-a-zA-Z_\\./]+)\\s*"
+    beginCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+      "2":
+        name: "keyword"
+    end: "(\\}\\})"
+    endCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+    name: "meta.function.block.start.handlebars"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#handlebar_as"
+      }
+      {
+        include: "#tag_onClick"
+      }
+      {
+        include: "#handlebar_attributes"
+      }
+      {
+        include: "#handlebar_data"
+      }
+      {
+        include: "#handlebar_action_helper"
+      }
+      {
+        include: "#handlebar_helper"
+      }
+    ]
+  comments:
+    patterns: [
+      {
+        begin: "\\{\\{!--"
+        end: "--\\}\\}"
+        name: "comment.block.handlebars"
+        patterns: [
+          {
+            match: "@\\w*"
+            name: "keyword.annotation.handlebars"
+          }
+          {
+            include: "#comments"
+          }
+        ]
+      }
+      {
+        begin: "\\{\\{!"
+        end: "\\}\\}"
+        name: "comment.block.handlebars"
+        patterns: [
+          {
+            match: "@\\w*"
+            name: "keyword.annotation.handlebars"
+          }
+          {
+            include: "#comments"
+          }
+        ]
+      }
+    ]
+  end_block:
+    begin: "(\\{\\{\\/)([a-zA-Z_\\.-]+)\\s*"
+    beginCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+      "2":
+        name: "keyword"
+    end: "(\\}\\})"
+    endCaptures:
+      "1":
+        name: "keyword.other.handlebar"
+    name: "meta.function.block.end.handlebars.sproutcore"
+    patterns: []
+  entities:
+    patterns: [
+      {
+        captures:
+          "1":
+            name: "punctuation.definition.entity.html"
+          "3":
+            name: "punctuation.definition.entity.html"
+        match: "(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)"
+        name: "constant.character.entity.html"
+      }
+      {
+        match: "&"
+        name: "invalid.illegal.bad-ampersand.html"
+      }
+    ]
+  html_tags:
+    patterns: [
+      {
+        begin: "(<)([-a-zA-Z0-9_\\./:]+)(?=[^>]*></\\2>)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.tag.begin.html"
+          "2":
+            name: "entity.name.tag.html"
+        end: "(>)(<)(/)(\\2)(>)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.tag.end.html"
+          "2":
+            name: "punctuation.definition.tag.begin.html meta.scope.between-tag-pair.html"
+          "3":
+            name: "punctuation.definition.tag.begin.html"
+          "4":
+            name: "entity.name.tag.html"
+          "5":
+            name: "punctuation.definition.tag.end.html"
+        name: "tags.attribute"
+        patterns: [
+          {
+            include: "#tag_stuff"
+          }
+        ]
+      }
+      {
+        begin: "(</?)((?i:body|head|html)\\b)"
+        captures:
+          "1":
+            name: "punctuation.definition.tag.begin.html"
+          "2":
+            name: "entity.name.tag.structure.any.html"
+        end: "(>)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.tag.end.html"
+        name: "meta.tag.structure.any.html"
+        patterns: [
+          {
+            include: "#tag_stuff"
+          }
+        ]
+      }
+      {
+        begin: "(<\\/*)((i:address|blockquote|dd|div|dl|dt|fieldset|form|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|hr|menu|pre)\\b)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.tag.begin.html"
+          "2":
+            name: "entity.name.tag.block.any.html"
+        end: "(>)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.tag.end.html"
+        name: "tags.attribute"
+        patterns: [
+          {
+            include: "#tag_stuff"
+          }
+        ]
+      }
+      {
+        begin: "(</?)((?i:a|abbr|acronym|area|b|base|basefont|bdo|big|br|button|caption|cite|code|col|colgroup|del|dfn|em|font|head|html|i|img|input|ins|isindex|kbd|label|legend|li|link|map|meta|noscript|optgroup|option|param|q|s|samp|script|select|small|span|strike|strong|style|sub|sup|table|tbody|td|textarea|tfoot|th|thead|title|tr|tt|u|var)\\b)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.tag.begin.html"
+          "2":
+            name: "entity.name.tag.inline.any.html"
+        end: "((?: ?/)?>)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.tag.end.html"
+        name: "meta.tag.inline.any.html"
+        patterns: [
+          {
+            include: "#tag_stuff"
+          }
+        ]
+      }
+      {
+        begin: "(</?)([-a-zA-Z0-9:]+)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.tag.begin.html"
+          "2":
+            name: "entity.name.tag.other.html"
+        end: "(>)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.tag.end.html"
+        name: "tags.attribute"
+        patterns: [
+          {
+            include: "#tag_stuff"
+          }
+        ]
+      }
+      {
+        include: "#entities"
+      }
+      {
+        match: "<>"
+        name: "invalid.illegal.incomplete.html"
+      }
+      {
+        match: "<"
+        name: "invalid.illegal.bad-angle-bracket.html"
+      }
+    ]
+  partial_and_var:
+    begin: "(\\{\\{\\{*>*)\\s*([-a-zA-Z_\\./]+)*"
+    beginCaptures:
+      "1":
+        name: "support.constant.handlebars"
+      "2":
+        name: "variable.parameter.handlebars"
+    end: "(\\}\\}\\}*)"
+    endCaptures:
+      "1":
+        name: "support.constant.handlebars"
+    name: "meta.function.inline.other.handlebars"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+    ]
+  string_double_quoted:
+    begin: "(\")"
+    beginCaptures:
+      "1":
+        name: "punctuation.definition.string.begin.html"
+    end: "(\")"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.string.end.html"
+    name: "string.quoted.double.html"
+    patterns: [
+      {
+        include: "#comments"
+      }
+      {
+        include: "#component"
+      }
+      {
+        include: "#block_helper"
+      }
+      {
+        include: "#end_block"
+      }
+      {
+        include: "#partial_and_var"
+      }
+    ]
+  string_single_quoted:
+    begin: "'"
+    beginCaptures:
+      "0":
+        name: "punctuation.definition.string.begin.html"
+    end: "'"
+    endCaptures:
+      "0":
+        name: "punctuation.definition.string.end.html"
+    name: "string.quoted.single.html"
+    patterns: [
+      {
+        include: "#comments"
+      }
+      {
+        include: "#component"
+      }
+      {
+        include: "#block_helper"
+      }
+      {
+        include: "#end_block"
+      }
+      {
+        include: "#partial_and_var"
+      }
+    ]
+  "tag-id-attribute":
+    begin: "\\b(id)\\b\\s*(=)"
+    captures:
+      "1":
+        name: "entity.other.attribute-name.id.html"
+      "2":
+        name: "punctuation.separator.key-value.html"
+    end: "(?<=''|\")"
+    name: "meta.attribute-with-value.id.html"
+    patterns: [
+      {
+        begin: "\""
+        beginCaptures:
+          "0":
+            name: "punctuation.definition.string.begin.html"
+        contentName: "meta.toc-list.id.html"
+        end: "\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.html"
+        name: "string.quoted.double.html"
+        patterns: [
+          {
+            include: "#partial_and_var"
+          }
+        ]
+      }
+      {
+        begin: "'"
+        beginCaptures:
+          "0":
+            name: "punctuation.definition.string.begin.html"
+        contentName: "meta.toc-list.id.html"
+        end: "'"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.html"
+        name: "string.quoted.single.html"
+        patterns: [
+          {
+            include: "#comments"
+          }
+          {
+            include: "#block_helper"
+          }
+          {
+            include: "#end_block"
+          }
+          {
+            include: "#partial_and_var"
+          }
+        ]
+      }
+    ]
+  tag_generic_attribute:
+    match: "\\b([a-zA-Z\\-:]+)"
+    name: "entity.other.attribute-name.html"
+    patterns: [
+      {
+        include: "#comments"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#block_helper"
+      }
+      {
+        include: "#component_action"
+      }
+      {
+        include: "#component"
+      }
+      {
+        include: "#end_block"
+      }
+      {
+        include: "#partial_and_var"
+      }
+    ]
+  tag_onClick:
+    match: "(on\\-{0,1}[C|c]lick)\\=([A-Za-z]*)"
+    captures:
+      "1":
+        name: "support.function.action"
+      "2":
+        name: "keyword.other.actionhandler"
+  tag_stuff:
+    patterns: [
+      {
+        include: "#tag_onClick"
+      }
+      {
+        include: "#component_action"
+      }
+      {
+        include: "#component"
+      }
+      {
+        include: "#tag_id_attribute"
+      }
+      {
+        include: "#tag_generic_attribute"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#string_single_quoted"
+      }
+    ]
+  handlebar_as:
+    match: "\\b(as)\\s+(\\|)([a-zA-z0-9]+)(\\|)"
+    captures:
+      "1":
+        name: "markup.italic, entity.name.function"
+      "2":
+        name: "declaration.tag"
+      "3":
+        name: "blockparam, object.property"
+      "4":
+        name: "declaration.tag"
+  handlebar_attributes:
+    begin: "\\b([a-zA-Z\\-:]+)="
+    beginCaptures:
+      "1":
+        name: "entity.other.attribute-name"
+    end: "([a-zA-Z\\-:]*)"
+    endCaptures:
+      "1":
+        name: "entity.other.data, constant.key"
+  handlebar_data:
+    match: "\\b([a-zA-Z\\-:]+)"
+    captures:
+      "1":
+        name: "entity.other.data, constant.key"
+  handlebar_action_helper:
+    begin: "(\\()(action)\\s+\\'([a-zA-Z\\-0-9\\s:]+)\\'"
+    beginCaptures:
+      "1":
+        name: "keyword"
+      "2":
+        name: "keyword"
+      "3":
+        name: "keyword.other.actionhandler"
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "keyword"
+    name: "meta.function.block.start.handlebars.helper"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#tag_onClick"
+      }
+      {
+        include: "#handlebar_attributes"
+      }
+      {
+        include: "#handlebar_data"
+      }
+      {
+        include: "#handlebar_action_helper"
+      }
+      {
+        include: "#handlebar_helper"
+      }
+    ]
+  handlebar_helper:
+    begin: "(\\()([a-zA-Z\\-:]+)"
+    beginCaptures:
+      "1":
+        name: "keyword"
+      "2":
+        name: "keyword"
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "keyword"
+    name: "meta.function.block.start.handlebars.helper"
+    patterns: [
+      {
+        include: "#string_single_quoted"
+      }
+      {
+        include: "#string_double_quoted"
+      }
+      {
+        include: "#tag_onClick"
+      }
+      {
+        include: "#handlebar_attributes"
+      }
+      {
+        include: "#handlebar_data"
+      }
+      {
+        include: "#handlebar_action_helper"
+      }
+      {
+        include: "#handlebar_helper"
+      }
+    ]
+scopeName: "text.html.handlebars"
